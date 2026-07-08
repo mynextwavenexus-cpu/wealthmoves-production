@@ -10,7 +10,7 @@ const JWT_SECRET = new TextEncoder().encode(
 const protectedRoutes = ["/", "/dream-life", "/revenue", "/offers", "/coach", "/sprint", "/resources"];
 
 // Public routes (no auth required - includes demo pages)
-const publicRoutes = ["/login", "/api", "/systems"];
+const publicRoutes = ["/login", "/api", "/systems", "/admin"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
