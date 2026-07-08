@@ -35,10 +35,7 @@ export default function SystemsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!isLoading && !user) router.push("/login");
-  }, [user, isLoading, router]);
-
-  useEffect(() => {
+    // Fetch blueprint if logged in, otherwise use default
     if (user) {
       fetch("/api/blueprint")
         .then(res => res.ok ? res.json() : null)
@@ -47,6 +44,8 @@ export default function SystemsPage() {
           setLoading(false);
         })
         .catch(() => setLoading(false));
+    } else {
+      setLoading(false);
     }
   }, [user]);
 
@@ -57,8 +56,6 @@ export default function SystemsPage() {
       </div>
     );
   }
-
-  if (!user) return null;
 
   const revenuePerSystem = Math.round(monthlyTarget / 6);
   const totalRevenue = revenuePerSystem * 6;
@@ -72,9 +69,15 @@ export default function SystemsPage() {
             Build automated systems to reach ${monthlyTarget.toLocaleString()}/mo
           </p>
         </div>
-        <Button onClick={() => router.push("/dream-life")} variant="outline">
-          Update Blueprint
-        </Button>
+        {user ? (
+          <Button onClick={() => router.push("/dream-life")} variant="outline">
+            Update Blueprint
+          </Button>
+        ) : (
+          <Button onClick={() => router.push("/login")} className="bg-[#0F3F4C] hover:bg-[#0a2f39]">
+            Sign In to Customize
+          </Button>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
